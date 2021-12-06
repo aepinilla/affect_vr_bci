@@ -11,28 +11,29 @@ public class Markers : MonoBehaviour
     public GameObject stressingEnvironment;
 
     // Markers
-    private string CalibBegin  = "calib-begin";
+    private string CalibBegin        = "calib-begin";
     private string HighValence       = "hv";
     private string HighArousal       = "ha";
     private string LowValence        = "lv";
     private string LowArousal        = "la";
-    private string CalibEnd    = "calib-end";
+    private string CalibEnd          = "calib-end";
+
 
     void Update()
     {
-        /* if (calibration phase started) */
+        if (/*calibration phase started*/)
         {
             PlayerPrefs.SetString("MarkerValence", CalibBegin);
             PlayerPrefs.SetString("MarkerArousal", CalibBegin);
         }
 
-        /* else if (calibration phase is over) */
+        else if (/*calibration phase over*/)
         {
             PlayerPrefs.SetString("MarkerValence", CalibEnd);
             PlayerPrefs.SetString("MarkerArousal", CalibEnd);
         }
 
-        else if (excitingEnvironment.activeInHierarchy)
+        if (excitingEnvironment.activeInHierarchy)
         {
             PlayerPrefs.SetString("MarkerValence", HighValence);
             PlayerPrefs.SetString("MarkerArousal", HighArousal);
@@ -55,7 +56,5 @@ public class Markers : MonoBehaviour
             PlayerPrefs.SetString("MarkerValence", LowValence);
             PlayerPrefs.SetString("MarkerArousal", HighArousal);
         }
-
-
     }
 }

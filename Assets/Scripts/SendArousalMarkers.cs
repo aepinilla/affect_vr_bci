@@ -36,7 +36,7 @@ public class SendArousalMarkers : MonoBehaviour
         /* if (calibration phase has not started) */
         {
             marker[0] = PlayerPrefs.GetString("MarkerArousal");
-            activeObject = PlayerPrefs.GetString("ActiveObject");
+            currentPhase = PlayerPrefs.GetString("CurrentPhase");
 
             // Send the marker once whenever the experiment phase changes.
             if (currentPhase != previousPhase)

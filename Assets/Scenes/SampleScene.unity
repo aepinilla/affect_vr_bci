@@ -448,6 +448,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f42f9e88932e2ed4091894e3d8f8b6e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  excitingEnvironment: {fileID: 0}
+  relaxingEnvironment: {fileID: 0}
+  depressingEnvironment: {fileID: 0}
+  stressingEnvironment: {fileID: 0}
 --- !u!1 &405897513
 GameObject:
   m_ObjectHideFlags: 0
@@ -5271,6 +5275,7 @@ GameObject:
   - component: {fileID: 415813087}
   - component: {fileID: 415813088}
   - component: {fileID: 415813089}
+  - component: {fileID: 415813090}
   m_Layer: 0
   m_Name: SendMarkers
   m_TagString: Untagged
@@ -5305,6 +5310,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc95aa44f3da63540846be0b3025c2d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StreamName: Unity.MarkersValenceStream
+  StreamType: Unity.StreamType
+  StreamId: UnityValence
 --- !u!114 &415813089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5317,6 +5325,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01084fe036d3b6e4fbddd77c1576d93d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StreamName: Unity.MarkersArousalStream
+  StreamType: Unity.StreamType
+  StreamId: UnityArousal
+--- !u!114 &415813090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415813086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f42f9e88932e2ed4091894e3d8f8b6e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  excitingEnvironment: {fileID: 655447821}
+  relaxingEnvironment: {fileID: 907508517}
+  depressingEnvironment: {fileID: 405897513}
+  stressingEnvironment: {fileID: 1950935264}
 --- !u!1 &655447821
 GameObject:
   m_ObjectHideFlags: 0
@@ -15341,6 +15368,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adbc3e92973da6049b65ed43df55c947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  streamType: Control
+  streamArousalName: OutStreamArousal
+  scaleInput: 0.1
 --- !u!114 &1597831711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15353,6 +15383,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e587fa798132b47819ef86678275e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  streamType: Control
+  streamValenceName: OutStreamValence
+  scaleInput: 0.1
 --- !u!114 &1597831712
 MonoBehaviour:
   m_ObjectHideFlags: 0
