@@ -1,6 +1,7 @@
 ﻿public enum ExperimentPhase
 {
-    Calibration,
-    Baseline,
-    NeuroFeedback
+    None = -1,
+    Calibration = 0,
+    Baseline = 1,
+    NeuroFeedback = 2
 }

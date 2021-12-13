@@ -48,6 +48,8 @@ public class ExperimentManager : MonoBehaviour
 
     public ExperimentPhase GetCurrentExperimentPhase()
     {
+        if (trialIndex < 0)
+            return ExperimentPhase.None;
         if (trialIndex < calibrationTrials.Length)
             return ExperimentPhase.Calibration;
         else if (trialIndex < (calibrationTrials.Length + baselineTrials.Length))
