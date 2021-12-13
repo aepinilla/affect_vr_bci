@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ExperimentManager : MonoBehaviour
@@ -16,13 +17,16 @@ public class ExperimentManager : MonoBehaviour
 
     public float repetitionDuration = 60;
 
-    public TrialDefinition[] trialDefinitions;
+    public TrialDefinition[] calibrationTrials;
+    public TrialDefinition[] baselineTrials;
+    public TrialDefinition[] neuroFeedbackTrials;
 
     private GameObject[] trials;
 
     private void Start()
     {
         var trialsList = new List<GameObject>();
+        var trialDefinitions = calibrationTrials.Concat(baselineTrials).Concat(neuroFeedbackTrials);
         foreach(var trialDefinition in trialDefinitions)
         {
             for(int i = 0; i < trialDefinition.repetitions; i++)
@@ -42,12 +46,26 @@ public class ExperimentManager : MonoBehaviour
         this.trials = trialsList.ToArray();
     }
 
+    public ExperimentPhase GetCurrentExperimentPhase()
+    {
+        if (trialIndex < 0)
+            return ExperimentPhase.None;
+        if (trialIndex < calibrationTrials.Length)
+            return ExperimentPhase.Calibration;
+        else if (trialIndex < (calibrationTrials.Length + baselineTrials.Length))
+            return ExperimentPhase.Baseline;
+        else
+            return ExperimentPhase.NeuroFeedback;
+    }
+
     private GameObject GetRandomEnvironment() => new[]{
             excitingEnvironment,
             relaxingEnvironment,
             depressingEnvironment,
             stressingEnvironment
         }[Random.Range(0, 4)];
+
+
 
     public void ContinueExperiment()
     {

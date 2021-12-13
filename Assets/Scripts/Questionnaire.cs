@@ -48,6 +48,7 @@ public class Questionnaire : MonoBehaviour
 
         //path = Application.persistentDataPath + "/" + timestamp + ".csv";
         //System.IO.File.WriteAllText(path, responses);
+        System.IO.Directory.CreateDirectory(@"Data");
         System.IO.File.WriteAllText(@"Data\" + timestamp + ".csv", responses);
     }
 
