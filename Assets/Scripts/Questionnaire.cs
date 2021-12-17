@@ -44,12 +44,14 @@ public class Questionnaire : MonoBehaviour
         marker = PlayerPrefs.GetString("Marker");
 
         responses = participant + "," + group + "," + marker + "," + valence + "," + arousal + "," + dominance;
-        Debug.Log(responses);
 
-        //path = Application.persistentDataPath + "/" + timestamp + ".csv";
-        //System.IO.File.WriteAllText(path, responses);
+        // For running in Windows
         System.IO.Directory.CreateDirectory(@"Data");
         System.IO.File.WriteAllText(@"Data\" + timestamp + ".csv", responses);
+
+        // For running in Oculus Quest
+        //path = Application.persistentDataPath + "/" + timestamp + ".csv";
+        //System.IO.File.WriteAllText(path, responses);
     }
 
     SelfReport ReadQuestionAndAnswer(GameObject QuestionGroup)

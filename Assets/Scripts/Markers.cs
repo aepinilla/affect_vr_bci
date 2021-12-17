@@ -52,30 +52,33 @@ public class Markers : MonoBehaviour
 
         else if (activePhase == "Calibration")
         {
-            if (excitingEnvironment.activeInHierarchy)
+            if (excitingEnvironment == null || relaxingEnvironment == null || depressingEnvironment == null || stressingEnvironment == null) {}
+            if (excitingEnvironment != null || relaxingEnvironment != null || depressingEnvironment != null || stressingEnvironment != null)
             {
-                PlayerPrefs.SetString("MarkerValence", HighValence);
-                PlayerPrefs.SetString("MarkerArousal", HighArousal);
-            }
+                if (excitingEnvironment.activeInHierarchy)
+                {
+                    PlayerPrefs.SetString("MarkerValence", HighValence);
+                    PlayerPrefs.SetString("MarkerArousal", HighArousal);
+                }
 
-            else if (relaxingEnvironment.activeInHierarchy)
-            {
-                PlayerPrefs.SetString("MarkerValence", HighValence);
-                PlayerPrefs.SetString("MarkerArousal", LowArousal);
-            }
+                else if (relaxingEnvironment.activeInHierarchy)
+                {
+                    PlayerPrefs.SetString("markervalence", HighValence);
+                    PlayerPrefs.SetString("markerarousal", LowArousal);
+                }
 
-            else if (depressingEnvironment.activeInHierarchy)
-            {
-                PlayerPrefs.SetString("MarkerValence", LowValence);
-                PlayerPrefs.SetString("MarkerArousal", LowArousal);
-            }
+                else if (depressingEnvironment.activeInHierarchy)
+                {
+                    PlayerPrefs.SetString("markervalence", LowValence);
+                    PlayerPrefs.SetString("markerarousal", LowArousal);
+                }
 
-            else if (stressingEnvironment.activeInHierarchy)
-            {
-                PlayerPrefs.SetString("MarkerValence", LowValence);
-                PlayerPrefs.SetString("MarkerArousal", HighArousal);
+                else if (stressingEnvironment.activeInHierarchy)
+                {
+                    PlayerPrefs.SetString("markervalence", LowValence);
+                    PlayerPrefs.SetString("markerarousal", HighArousal);
+                }
             }
-
         }
 
         else if (activePhase == "PostCalibration")

@@ -423,7 +423,9 @@ MonoBehaviour:
   depressingEnvironment: {fileID: 405897513}
   stressingEnvironment: {fileID: 1950935264}
   repetitionDuration: 60
-  preCalibrationTrials: []
+  preCalibrationTrials:
+  - trialType: 0
+    repetitions: 0
   calibrationTrials:
   - trialType: 0
     repetitions: 5
@@ -465,7 +467,9 @@ MonoBehaviour:
     repetitions: 5
   - trialType: 3
     repetitions: 5
-  postCalibrationTrials: []
+  postCalibrationTrials:
+  - trialType: 0
+    repetitions: 0
   baselineTrials:
   - trialType: 4
     repetitions: 1
@@ -5360,7 +5364,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 415813086}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01084fe036d3b6e4fbddd77c1576d93d, type: 3}
   m_Name: 
@@ -15380,7 +15384,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1597831709
 Transform:
   m_ObjectHideFlags: 0
