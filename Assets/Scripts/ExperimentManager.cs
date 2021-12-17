@@ -17,7 +17,9 @@ public class ExperimentManager : MonoBehaviour
 
     public float repetitionDuration = 60;
 
+    public TrialDefinition[] preCalibrationTrials;
     public TrialDefinition[] calibrationTrials;
+    public TrialDefinition[] postCalibrationTrials;
     public TrialDefinition[] baselineTrials;
     public TrialDefinition[] neuroFeedbackTrials;
 
@@ -26,7 +28,7 @@ public class ExperimentManager : MonoBehaviour
     private void Start()
     {
         var trialsList = new List<GameObject>();
-        var trialDefinitions = calibrationTrials.Concat(baselineTrials).Concat(neuroFeedbackTrials);
+        var trialDefinitions = preCalibrationTrials.Concat(calibrationTrials).Concat(postCalibrationTrials).Concat(baselineTrials).Concat(neuroFeedbackTrials);
         foreach(var trialDefinition in trialDefinitions)
         {
             for(int i = 0; i < trialDefinition.repetitions; i++)
@@ -48,11 +50,16 @@ public class ExperimentManager : MonoBehaviour
 
     public ExperimentPhase GetCurrentExperimentPhase()
     {
+
         if (trialIndex < 0)
-            return ExperimentPhase.None;
-        if (trialIndex < calibrationTrials.Length)
+            return ExperimentPhase.Intro;
+        else if (trialIndex < preCalibrationTrials.Length)
+            return ExperimentPhase.PreCalibration;
+        else if (trialIndex < preCalibrationTrials.Length + calibrationTrials.Length)
             return ExperimentPhase.Calibration;
-        else if (trialIndex < (calibrationTrials.Length + baselineTrials.Length))
+        else if (trialIndex < preCalibrationTrials.Length + calibrationTrials.Length + postCalibrationTrials.Length)
+            return ExperimentPhase.PostCalibration;
+        else if (trialIndex < (preCalibrationTrials.Length + calibrationTrials.Length + postCalibrationTrials.Length + baselineTrials.Length))
             return ExperimentPhase.Baseline;
         else
             return ExperimentPhase.NeuroFeedback;

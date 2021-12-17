@@ -7,22 +7,29 @@ using UnityEngine.SceneManagement;
 
 public class SendArousalMarkers : MonoBehaviour
 {
+    // Phases
+    ExperimentManager experimentManager;
+    private string activePhase;
+    private string previousPhase = "null";
+
+    // LSL
     private static liblsl.StreamOutlet outlet;
     public string StreamName = "Unity.MarkersArousalStream";
     public string StreamType = "Unity.StreamType";
     public string StreamId = "UnityArousal";
-    private string[] marker;
-    private string currentPhase;
-    private string previousPhase = "null";
+    private string[] marker;    
 
-    private int i = 0;
-
+    // Timer
     private float timer = 0.0f;
     private float timeInterval = 1.0f;
 
 
     void Start()
     {
+        // Call experiment manager
+        experimentManager = GameObject.FindGameObjectWithTag("ExperimentManager").GetComponent<ExperimentManager>();
+
+        // LSL
         liblsl.StreamInfo streamInfo = new liblsl.StreamInfo(StreamName, StreamType, 1, liblsl.IRREGULAR_RATE, liblsl.channel_format_t.cf_string);
         liblsl.XMLElement chans = streamInfo.desc().append_child("channels");
         chans.append_child("channel").append_child_value("label", "Marker");
@@ -33,21 +40,24 @@ public class SendArousalMarkers : MonoBehaviour
 
     void Update()
     {
-        /* if (calibration phase has not started) */
+        // Set markers according to active phase
+        activePhase = experimentManager.GetCurrentExperimentPhase().ToString();
+
+        if (activePhase == "Intro" || activePhase == "Baseline")
         {
             marker[0] = PlayerPrefs.GetString("MarkerArousal");
-            currentPhase = PlayerPrefs.GetString("CurrentPhase");
+            activePhase = PlayerPrefs.GetString("CurrentPhase");
 
             // Send the marker once whenever the experiment phase changes.
-            if (currentPhase != previousPhase)
+            if (activePhase != previousPhase)
             {
                 outlet.push_sample(marker);
             }
 
-            previousPhase = currentPhase;
+            previousPhase = activePhase;
         }
 
-        /* if (calibration phase is active) */
+        else if (activePhase == "Calibration")
         {
             // Send the marker once per second to Neuropype.
             marker[0] = PlayerPrefs.GetString("MarkerArousal");
@@ -60,7 +70,7 @@ public class SendArousalMarkers : MonoBehaviour
             }
         }
 
-        /*else if (calibration phase is over) */
+        else if (activePhase == "NeuroFeedback")
         {
             // Send an "unkown" marker once per second.
             // This is necessary to get a "reply" back from Neuropype with the output of the classifier.

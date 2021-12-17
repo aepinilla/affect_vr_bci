@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 149042534}
   m_Layer: 0
   m_Name: ExperimentManager
-  m_TagString: Untagged
+  m_TagString: ExperimentManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -423,6 +423,7 @@ MonoBehaviour:
   depressingEnvironment: {fileID: 405897513}
   stressingEnvironment: {fileID: 1950935264}
   repetitionDuration: 60
+  preCalibrationTrials: []
   calibrationTrials:
   - trialType: 0
     repetitions: 5
@@ -432,23 +433,47 @@ MonoBehaviour:
     repetitions: 5
   - trialType: 3
     repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  postCalibrationTrials: []
   baselineTrials:
   - trialType: 4
     repetitions: 1
   neuroFeedbackTrials:
   - trialType: 1
     repetitions: 3
-  trialDefinitions:
-  - trialType: 0
-    repetitions: 5
   - trialType: 1
-    repetitions: 5
-  - trialType: 2
-    repetitions: 5
-  - trialType: 3
-    repetitions: 5
-  - trialType: 4
-    repetitions: 1
+    repetitions: 3
   - trialType: 1
     repetitions: 3
 --- !u!114 &149042534
@@ -5288,9 +5313,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 415813087}
+  - component: {fileID: 415813090}
   - component: {fileID: 415813088}
   - component: {fileID: 415813089}
-  - component: {fileID: 415813090}
   m_Layer: 0
   m_Name: SendMarkers
   m_TagString: Untagged
@@ -5320,7 +5345,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 415813086}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc95aa44f3da63540846be0b3025c2d2, type: 3}
   m_Name: 
@@ -5335,7 +5360,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 415813086}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01084fe036d3b6e4fbddd77c1576d93d, type: 3}
   m_Name: 
@@ -15314,7 +15339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1528433380}
   m_Layer: 0
-  m_Name: EEGInterface
+  m_Name: LSLInterface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15355,7 +15380,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1597831709
 Transform:
   m_ObjectHideFlags: 0
