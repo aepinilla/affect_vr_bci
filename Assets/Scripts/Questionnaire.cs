@@ -31,7 +31,7 @@ public class Questionnaire : MonoBehaviour
 
     public void SubmitAnswer()
     {
-        for(int i = 0; i < qaArr.Length; i++)
+        for (int i = 0; i < qaArr.Length; i++)
         {
             qaArr[i] = ReadQuestionAndAnswer(questionGroupArr[i]);
         }
@@ -44,6 +44,11 @@ public class Questionnaire : MonoBehaviour
         marker = PlayerPrefs.GetString("Marker");
 
         responses = participant + "," + group + "," + marker + "," + valence + "," + arousal + "," + dominance;
+        Debug.Log(responses);
+
+        //path = Application.persistentDataPath + "/" + timestamp + ".csv";
+        //System.IO.File.WriteAllText(path, responses);
+        System.IO.Directory.CreateDirectory(@"Data");
         System.IO.File.WriteAllText(@"Data\" + timestamp + ".csv", responses);
     }
 
@@ -55,7 +60,7 @@ public class Questionnaire : MonoBehaviour
         GameObject a = QuestionGroup.transform.Find("Answer").gameObject;
 
         result.Question = q.GetComponent<Text>().text;
-        
+
         for (int i = 0; i < a.transform.childCount; i++)
         {
             if (a.transform.GetChild(i).GetComponent<Toggle>().isOn)
@@ -67,7 +72,7 @@ public class Questionnaire : MonoBehaviour
         }
 
         return result;
- 
+
     }
 }
 

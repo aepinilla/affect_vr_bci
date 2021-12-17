@@ -423,6 +423,21 @@ MonoBehaviour:
   depressingEnvironment: {fileID: 405897513}
   stressingEnvironment: {fileID: 1950935264}
   repetitionDuration: 60
+  calibrationTrials:
+  - trialType: 0
+    repetitions: 5
+  - trialType: 1
+    repetitions: 5
+  - trialType: 2
+    repetitions: 5
+  - trialType: 3
+    repetitions: 5
+  baselineTrials:
+  - trialType: 4
+    repetitions: 1
+  neuroFeedbackTrials:
+  - trialType: 1
+    repetitions: 3
   trialDefinitions:
   - trialType: 0
     repetitions: 5
@@ -28087,7 +28102,6 @@ GameObject:
   - component: {fileID: 9131981776307953432}
   - component: {fileID: 9131981776307953437}
   - component: {fileID: 9131981776307953438}
-  - component: {fileID: 9131981776307953439}
   m_Layer: 5
   m_Name: SAMScales
   m_TagString: Untagged
@@ -28133,20 +28147,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9131981776307953439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9131981776307953433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fe9d7f9ae2f5054cb21bb9fd77e7a89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentSceneIndex: 0
-  nextSceneName: 
 --- !u!114 &9131981776311670888
 MonoBehaviour:
   m_ObjectHideFlags: 0
