@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class SelfAssessmentManikin : MonoBehaviour
 {
     public SwitchScales switchScales;
-    public UnityEvent onSubmit = new();
+    public UnityEvent onSubmit = new UnityEvent();
 
     public void Present()
     {

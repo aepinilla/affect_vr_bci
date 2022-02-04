@@ -1,0 +1,16 @@
+{
+  "name": "iota_auth",
+  "version": "0.0.0",
+  "description": "authenticate the user with iota identity",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "julius.wachlin",
+  "license": "ISC",
+  "dependencies": {
+    "@fleekhq/fleek-storage-js": "^1.0.20",
+    "@iota/identity-wasm": "^0.5.0-dev.1"
+  }
+}

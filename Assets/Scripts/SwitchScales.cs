@@ -63,7 +63,7 @@ public class SwitchScales : MonoBehaviour
             currentScale.SetActive(false);
         }
 
-        if (scalesIndex < 2)
+        if (scalesIndex < scales.Length)
         {
             scalesIndex += 1;
             currentScale = scales[scalesIndex];
