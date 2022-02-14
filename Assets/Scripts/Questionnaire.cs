@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Questionnaire : MonoBehaviour
 {
+    private TangleConnection tangleConnection;
+    private string dataPath = @"./Data/";
+
     public GameObject[] questionGroupArr;
     public SelfReport[] qaArr;
     public string responses;
-    private string path;
 
-    public string participant;
-    public string group;
-    public string marker;
-    public string arousal;
-    public string valence;
-    public string dominance;
-    public string timestamp;
     public string startTime;
     public string endTS;
 
@@ -25,8 +20,14 @@ public class Questionnaire : MonoBehaviour
     void Start()
     {
         qaArr = new SelfReport[questionGroupArr.Length];
-        participant = PlayerPrefs.GetString("participant");
-        group = PlayerPrefs.GetString("group");
+
+        GameObject tangleConnectionObject = GameObject.Find("TangleConnection");
+        tangleConnection = tangleConnectionObject.GetComponent<TangleConnection>();
+
+        if (tangleConnection == null)
+        {
+            throw new Exception("Login: tangleConnection is null");
+        }
     }
 
     public void SubmitAnswer()
@@ -36,21 +37,22 @@ public class Questionnaire : MonoBehaviour
             qaArr[i] = ReadQuestionAndAnswer(questionGroupArr[i]);
         }
 
-        valence = qaArr[0].Answer;
-        arousal = qaArr[1].Answer;
-        dominance = qaArr[2].Answer;
-        timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd,HH.mm.ss");
-        participant = PlayerPrefs.GetString("participant");
-        marker = PlayerPrefs.GetString("Marker");
+        QuestionnaireResponse response = new QuestionnaireResponse
+        {
+            User = tangleConnection.User,
+            Timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd,HH.mm.ss"),
+            Marker = PlayerPrefs.GetString("Marker"),
+            Valence = qaArr[0].Answer,
+            Arousal = qaArr[1].Answer,
+            Dominance = qaArr[2].Answer
+        };
 
-        responses = participant + "," + group + "," + marker + "," + valence + "," + arousal + "," + dominance;
 
         // For running in Windows
-        System.IO.Directory.CreateDirectory(@"Data");
-        System.IO.File.WriteAllText(@"Data\" + timestamp + ".csv", responses);
+        File.WriteAllText(dataPath + response.User.Username + "_" + response.Timestamp + ".json", JsonConvert.SerializeObject(response));
 
         // For running in Oculus Quest
-        //path = Application.persistentDataPath + "/" + timestamp + ".csv";
+        //path = Application.persistentDataPath + " / " + timestamp + ".csv";
         //System.IO.File.WriteAllText(path, responses);
     }
 
