@@ -1,10 +1,10 @@
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +17,9 @@ public class Login : MonoBehaviour
     public Text ResponseText;
     private string UserdataPath = @"./Data/userdata.json";
     private List<Userdata> UserdataList;
-    
+    private Userdata User;
+    private bool LoginStarted;
+    private bool LoginSuccess;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +33,36 @@ public class Login : MonoBehaviour
 
         var jsontext = File.ReadAllText(UserdataPath);
         UserdataList = JsonConvert.DeserializeObject<List<Userdata>>(jsontext);
+    }
+
+    private void DisableLoginButton(bool disable)
+    {
+        if (disable)
+        {
+            LoginButton.enabled = false;
+            LoginButton.image.color = LoginButton.colors.disabledColor;
+        }
+        else
+        {
+            LoginButton.enabled = true;
+            LoginButton.image.color = LoginButton.colors.normalColor;
+        }
+    }
+
+    private void Update()
+    {
+        DisableLoginButton(LoginStarted);
+
+        if (!LoginSuccess && User != null)
+        {
+            LoginSuccess = true;
+            LoginStarted = false;
+
+            InfoText("Authentification complete", Color.green);
+            
+            LoginButton.gameObject.SetActive(false);
+            StartButton.gameObject.SetActive(true);            
+        }
     }
 
     private void InfoText(string text, Color color)
@@ -57,6 +89,11 @@ public class Login : MonoBehaviour
         };
     }
 
+    private async Task RegisterUserAsync()
+    {
+        User = RegisterUser(UsernameField.text, PasswordField.text);
+    }
+
     private Userdata RegisterUser(string username, string password)
     {
         Userdata user = new Userdata
@@ -79,7 +116,7 @@ public class Login : MonoBehaviour
             CreateDidResponse createDidResponse = JsonConvert.DeserializeObject<CreateDidResponse>(rawResult);
             user.PrivateKey = createDidResponse.Key.Private;
             user.PublicKey = createDidResponse.Key.Public;
-            
+
             UserdataList.Add(user);
             File.WriteAllText(UserdataPath, JsonConvert.SerializeObject(UserdataList));
         }
@@ -93,27 +130,22 @@ public class Login : MonoBehaviour
 
     public void SubmitLogin()
     {
-        StartButton.gameObject.SetActive(false);
-            
+        LoginStarted = true;
+
         if (string.IsNullOrEmpty(UsernameField.text) || string.IsNullOrEmpty(PasswordField.text))
         {
             InfoText("Please enter Username and Password", Color.red);
+            LoginStarted = false;
             return;
         }
 
         InfoText("Authentification...", Color.white);
 
-        Userdata user = UserdataList.FirstOrDefault(x => x.Username == UsernameField.text);
+        User = UserdataList.FirstOrDefault(x => x.Username == UsernameField.text);
 
-        if (user == null)
+        if (User == null)
         {
-            user = RegisterUser(UsernameField.text, PasswordField.text);
+            Task.Run(RegisterUserAsync);
         }
-
-
-        InfoText("Authentification complete", Color.green);
-        
-        LoginButton.gameObject.SetActive(false);
-        StartButton.gameObject.SetActive(true);
     }
 }
