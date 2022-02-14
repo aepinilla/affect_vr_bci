@@ -10,14 +10,13 @@ using UnityEngine.UI;
 
 public class Login : MonoBehaviour
 {
+    private TangleConnection tangleConnection;
+
     public InputField UsernameField;
     public InputField PasswordField;
     public Button LoginButton;
     public Button StartButton;
     public Text ResponseText;
-    private string UserdataPath = @"./Data/userdata.json";
-    private List<Userdata> UserdataList;
-    private Userdata User;
     private bool LoginStarted;
     private bool LoginSuccess;
 
@@ -26,13 +25,33 @@ public class Login : MonoBehaviour
     {
         StartButton.gameObject.SetActive(false);
 
-        if (!File.Exists(UserdataPath))
+        GameObject tangleConnectionObject = GameObject.Find("TangleConnection");
+        tangleConnection = tangleConnectionObject.GetComponent<TangleConnection>();
+
+        if (tangleConnection == null)
         {
-            File.WriteAllText(UserdataPath, JsonConvert.SerializeObject(new List<Userdata>()));
+            throw new Exception("Login: tangleConnection is null");
+        }
+    }
+
+    private void Update()
+    {
+        DisableLoginButton(LoginStarted);
+
+        if (!LoginSuccess && tangleConnection.User != null)
+        {
+            LoginSuccess = true;
+            LoginStarted = false;
+
+            InfoText("Authentification complete", Color.green);
+            
+            StartButton.gameObject.SetActive(true);            
         }
 
-        var jsontext = File.ReadAllText(UserdataPath);
-        UserdataList = JsonConvert.DeserializeObject<List<Userdata>>(jsontext);
+        if (LoginStarted)
+        {
+            InfoText("Authentification" + new string('.', DateTime.Now.Second % 4), Color.white);
+        }
     }
 
     private void DisableLoginButton(bool disable)
@@ -49,103 +68,21 @@ public class Login : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void SubmitLogin()
     {
-        DisableLoginButton(LoginStarted);
-
-        if (!LoginSuccess && User != null)
+        if (string.IsNullOrEmpty(UsernameField.text) || string.IsNullOrEmpty(PasswordField.text))
         {
-            LoginSuccess = true;
-            LoginStarted = false;
-
-            InfoText("Authentification complete", Color.green);
-            
-            LoginButton.gameObject.SetActive(false);
-            StartButton.gameObject.SetActive(true);            
+            InfoText("Please enter Username and Password", Color.red);
+            return;
         }
+
+        LoginStarted = true;
+        tangleConnection.Login(UsernameField.text, PasswordField.text);
     }
 
     private void InfoText(string text, Color color)
     {
         ResponseText.text = text;
         ResponseText.color = color;
-    }
-
-    private Process CreateIotaAuthProcess(string args)
-    {
-        return new Process
-        {
-            StartInfo = new ProcessStartInfo
-            {
-                WorkingDirectory = @"./Assets/IotaAuth/src/",
-                WindowStyle = ProcessWindowStyle.Hidden,
-                FileName = "cmd.exe",
-                Arguments = "/c node main.js " + args,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = true
-            }
-        };
-    }
-
-    private async Task RegisterUserAsync()
-    {
-        User = RegisterUser(UsernameField.text, PasswordField.text);
-    }
-
-    private Userdata RegisterUser(string username, string password)
-    {
-        Userdata user = new Userdata
-        {
-            Username = UsernameField.text
-        };
-
-        Process create_did = CreateIotaAuthProcess("create_did");
-        create_did.Start();
-
-        string rawResult = "";
-        while (!create_did.StandardOutput.EndOfStream)
-        {
-            string line = create_did.StandardOutput.ReadLine();
-            rawResult += line;
-        }
-
-        try
-        {
-            CreateDidResponse createDidResponse = JsonConvert.DeserializeObject<CreateDidResponse>(rawResult);
-            user.PrivateKey = createDidResponse.Key.Private;
-            user.PublicKey = createDidResponse.Key.Public;
-
-            UserdataList.Add(user);
-            File.WriteAllText(UserdataPath, JsonConvert.SerializeObject(UserdataList));
-        }
-        catch (Exception e)
-        {
-            InfoText("ERROR: " + rawResult, Color.red);
-        }
-
-        return user;
-    }
-
-    public void SubmitLogin()
-    {
-        LoginStarted = true;
-
-        if (string.IsNullOrEmpty(UsernameField.text) || string.IsNullOrEmpty(PasswordField.text))
-        {
-            InfoText("Please enter Username and Password", Color.red);
-            LoginStarted = false;
-            return;
-        }
-
-        InfoText("Authentification...", Color.white);
-
-        User = UserdataList.FirstOrDefault(x => x.Username == UsernameField.text);
-
-        if (User == null)
-        {
-            Task.Run(RegisterUserAsync);
-        }
     }
 }
