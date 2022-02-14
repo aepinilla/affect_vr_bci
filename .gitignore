@@ -70,3 +70,9 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /Data
+
+# NPM
+**/node_modules
+
+# Visual Studio Auto Generated
+*.meta
